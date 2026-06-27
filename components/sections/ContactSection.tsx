@@ -66,7 +66,7 @@ export default function ContactSection() {
               <h3 className="font-display font-semibold text-white text-sm mb-1">WhatsApp</h3>
               <p className="text-xs text-zinc-500 mb-3">Respuesta inmediata en horario comercial</p>
               <a
-                href="https://wa.me/5491100000000"
+                href="https://wa.me/5493417830260"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors"
@@ -82,10 +82,10 @@ export default function ContactSection() {
               <h3 className="font-display font-semibold text-white text-sm mb-1">Email</h3>
               <p className="text-xs text-zinc-500 mb-3">Para consultas detalladas</p>
               <a
-                href="mailto:hola@elara.com"
+                href="mailto:soporte.elara.ai@gmail.com"
                 className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors"
               >
-                hola@elara.com <ArrowRight className="w-3 h-3" />
+                soporte.elara.ai@gmail.com <ArrowRight className="w-3 h-3" />
               </a>
             </div>
 

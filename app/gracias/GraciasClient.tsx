@@ -113,7 +113,7 @@ export default function GraciasClient() {
           >
             No encontramos un pago reciente con ese email. Si acabás de pagar, esperá unos segundos y volvé a intentarlo. Si el problema persiste, escribinos al WhatsApp.
             <a
-              href="https://wa.me/5491100000000?text=Hola%2C%20acabo%20de%20pagar%20y%20no%20puedo%20acceder%20al%20formulario."
+              href="https://wa.me/5493417830260?text=Hola%2C%20acabo%20de%20pagar%20y%20no%20puedo%20acceder%20al%20formulario."
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
