@@ -29,21 +29,10 @@ export async function middleware(req: NextRequest) {
 
   const pathname = req.nextUrl.pathname
 
-  // Rutas del admin (excepto /admin/login)
+  // Rutas del admin (excepto /admin/login): solo verificar sesión activa.
+  // La verificación de rol admin la hace layout.tsx con service role key.
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     if (!user) {
-      return NextResponse.redirect(new URL('/admin/login', req.url))
-    }
-
-    // Verificar que el usuario es un admin de ELARA
-    const { data: admin } = await supabase
-      .from('elara_admins')
-      .select('id, active')
-      .eq('id', user.id)
-      .single()
-
-    if (!admin || !admin.active) {
-      await supabase.auth.signOut()
       return NextResponse.redirect(new URL('/admin/login', req.url))
     }
   }
