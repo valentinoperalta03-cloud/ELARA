@@ -68,8 +68,9 @@ export default function GraciasClient() {
         <h1 className="font-display font-bold text-3xl md:text-4xl text-white mb-2 text-center">
           ¡Tu pago fue exitoso!
         </h1>
-        <p className="text-zinc-400 text-center mb-8">
-          Ingresá el email con el que pagaste para acceder a tu formulario.
+        <p className="text-zinc-400 text-center mb-8 leading-relaxed">
+          Ingresá el email con el que realizaste tu compra y completá el formulario de onboarding.
+          Con esa información construimos tu sistema exactamente como tu negocio lo necesita.
         </p>
 
         {/* Form */}
