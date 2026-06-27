@@ -167,6 +167,12 @@ async function handleOrderCreated(payload: LSOrderPayload): Promise<void> {
       checklist: getDefaultChecklist(product.slug),
     })
 
+    await supabaseAdmin.from('onboarding_submissions').insert({
+      client_id: client.id,
+      order_id: order.id,
+      product_slug: product.slug,
+    })
+
     // Actualizar estado del cliente a 'onboarding'
     await supabaseAdmin
       .from('clients')
@@ -245,6 +251,12 @@ async function handleSubscriptionCreated(payload: LSSubscriptionPayload): Promis
       status: 'pending',
       priority: 'normal',
       checklist: getDefaultChecklist(product.slug),
+    })
+
+    await supabaseAdmin.from('onboarding_submissions').insert({
+      client_id: client.id,
+      subscription_id: sub.id,
+      product_slug: product.slug,
     })
 
     await supabaseAdmin

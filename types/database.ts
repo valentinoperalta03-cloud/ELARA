@@ -180,6 +180,20 @@ export interface WebhookEvent {
   received_at: string
 }
 
+export interface OnboardingSubmission {
+  id: string
+  client_id: string | null
+  order_id: string | null
+  subscription_id: string | null
+  product_slug: string
+  token: string
+  status: 'pending' | 'completed'
+  logo_url: string | null
+  answers: Record<string, unknown>
+  completed_at: string | null
+  created_at: string
+}
+
 // Joins útiles para el dashboard
 export interface ClientWithStats extends Client {
   orders?: Order[]

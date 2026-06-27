@@ -10,6 +10,7 @@ import {
   ListChecks,
   CreditCard,
   Inbox,
+  ClipboardList,
   Settings,
   LogOut,
   ChevronRight,
@@ -21,6 +22,7 @@ const navItems = [
   { href: '/admin/implementaciones', label: 'Implementaciones', icon: ListChecks },
   { href: '/admin/pagos', label: 'Pagos', icon: CreditCard },
   { href: '/admin/leads', label: 'Leads', icon: Inbox },
+  { href: '/admin/onboardings', label: 'Onboardings', icon: ClipboardList },
   { href: '/admin/config', label: 'Configuración', icon: Settings },
 ]
 
