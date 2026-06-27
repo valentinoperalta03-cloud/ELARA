@@ -11,7 +11,6 @@ import {
   CreditCard,
   Inbox,
   ClipboardList,
-  Settings,
   LogOut,
   ChevronRight,
 } from 'lucide-react'
@@ -23,7 +22,6 @@ const navItems = [
   { href: '/admin/pagos', label: 'Pagos', icon: CreditCard },
   { href: '/admin/leads', label: 'Leads', icon: Inbox },
   { href: '/admin/onboardings', label: 'Onboardings', icon: ClipboardList },
-  { href: '/admin/config', label: 'Configuración', icon: Settings },
 ]
 
 interface Props {
