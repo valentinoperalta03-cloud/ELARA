@@ -145,9 +145,12 @@ export default function OnboardingForm({ token, productSlug }: Props) {
             if (typeof f === 'string') { uploadedFotos.push(f); continue }
             uploadedFotos.push(await uploadFile(f.file, `productos/${pi}/${fi}_${f.file.name}`))
           }
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { _id, ...rest } = product
-          cleanProducts.push({ ...rest, fotos: uploadedFotos })
+          cleanProducts.push({
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            fotos: uploadedFotos,
+          })
         }
         processed['productos_lista'] = cleanProducts
       }
