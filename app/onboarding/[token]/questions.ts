@@ -6,12 +6,13 @@ export interface QuestionOption {
 
 export interface Question {
   id: string
-  type: 'text' | 'textarea' | 'upload' | 'location' | 'select' | 'multiselect'
+  type: 'text' | 'textarea' | 'upload' | 'location' | 'select' | 'multiselect' | 'photos' | 'yesno' | 'products'
   question: string
   hint?: string
   placeholder?: string
   options?: QuestionOption[]
   required: boolean
+  condition?: (answers: Record<string, unknown>) => boolean
 }
 
 const BASE_QUESTIONS: Question[] = [
@@ -75,11 +76,48 @@ const BASE_QUESTIONS: Question[] = [
     required: true,
   },
   {
+    id: 'fotos_negocio',
+    type: 'photos',
+    question: '¿Tenés fotos de tu negocio?',
+    hint: 'Subí fotos del local, del equipo, de tus productos o de lo que hacés. Cuanto más, mejor.',
+    required: false,
+  },
+  {
     id: 'redes',
     type: 'text',
     question: '¿Tenés Instagram u otras redes? Pegá los links.',
     placeholder: 'Ej: instagram.com/minegocio, facebook.com/minegocio',
     required: false,
+  },
+  {
+    id: 'objetivo_web',
+    type: 'select',
+    question: '¿Cuál es el objetivo principal de tu página web?',
+    hint: 'Elegí el que más se ajusta a lo que querés lograr.',
+    options: [
+      { value: 'clientes', label: '🎯 Conseguir más clientes', description: 'Que nuevas personas te contacten' },
+      { value: 'mostrar', label: '🏪 Mostrar mi negocio', description: 'Tener presencia profesional online' },
+      { value: 'vender', label: '🛒 Vender productos', description: 'Catálogo con precios y compra directa' },
+      { value: 'reservas', label: '📅 Recibir reservas o turnos', description: 'Los clientes agenden solos' },
+      { value: 'catalogo', label: '📋 Mostrar un catálogo', description: 'Exhibir productos o servicios sin venta online' },
+      { value: 'consultas', label: '💬 Generar consultas', description: 'Que te escriban por WhatsApp o email' },
+    ],
+    required: true,
+  },
+  {
+    id: 'vende_productos',
+    type: 'yesno',
+    question: '¿Vendés productos físicos o digitales?',
+    hint: 'Esto nos ayuda a saber si necesitás una sección de catálogo o tienda.',
+    required: true,
+  },
+  {
+    id: 'productos_lista',
+    type: 'products',
+    question: 'Cargá tus productos principales',
+    hint: 'Agregá los que quieras mostrar en tu sitio. Nombre, precio y foto son suficientes.',
+    required: false,
+    condition: (answers) => answers['vende_productos'] === 'si',
   },
   {
     id: 'estilo_web',
@@ -342,7 +380,11 @@ const QUESTION_LABELS: Record<string, string> = {
   cliente_ideal: 'Cliente ideal',
   problema_que_resuelve: 'Problema que resuelve',
   diferencial: 'Diferencial',
+  fotos_negocio: 'Fotos del negocio',
   redes: 'Redes sociales',
+  objetivo_web: 'Objetivo de la página web',
+  vende_productos: '¿Vende productos?',
+  productos_lista: 'Productos',
   estilo_web: 'Estilo visual',
   colores: 'Colores de marca',
   info_extra: 'Información adicional',
