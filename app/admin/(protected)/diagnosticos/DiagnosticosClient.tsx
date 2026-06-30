@@ -199,7 +199,7 @@ export default function DiagnosticosClient({ leads }: { leads: DiagnosticLead[] 
                 <div>
                   <div className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-3">Plan recomendado</div>
                   <div className="space-y-2">
-                    {selected.recommended_services.map((s, i) => (
+                    {(selected.recommended_services ?? []).map((s, i) => (
                       <div key={i} className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3">
                         <span className="text-zinc-600 text-[11px] font-mono">#{i + 1}</span>
                         <span className="text-zinc-200 text-sm font-medium">{s}</span>
