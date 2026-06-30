@@ -195,7 +195,7 @@ export default function DiagnosticosClient({ leads }: { leads: DiagnosticLead[] 
               )}
 
               {/* Recommended services */}
-              {selected.recommended_services?.length > 0 && (
+              {(selected.recommended_services ?? []).length > 0 && (
                 <div>
                   <div className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-3">Plan recomendado</div>
                   <div className="space-y-2">
