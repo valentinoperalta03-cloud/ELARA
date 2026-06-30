@@ -119,7 +119,7 @@ export function formatPrice(n: number): string {
 
 // ─── Promo rules ────────────────────────────────────────────────────────────────
 
-export type LaunchPromoLevel = 'hidden' | 'normal' | 'promo' | 'free'
+export type LaunchPromoLevel = 'hidden' | 'normal' | 'promo' | 'free' | 'expired'
 
 export function getLaunchPromo(selectedCount: number): LaunchPromoLevel {
   if (selectedCount === 0) return 'hidden'
@@ -130,5 +130,5 @@ export function getLaunchPromo(selectedCount: number): LaunchPromoLevel {
 
 // ─── Countdown ────────────────────────────────────────────────────────────────
 
-export const PROMO_DURATION_SECONDS = 25 * 60  // 25 minutos
+export const PROMO_DURATION_SECONDS = 30 * 60  // 30 minutos
 export const PROMO_STORAGE_KEY = 'elara_diag_expiry_v1'

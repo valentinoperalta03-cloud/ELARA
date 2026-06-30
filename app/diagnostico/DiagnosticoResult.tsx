@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { CheckCircle, TrendingUp, Star, Zap, Clock, Gift, ArrowRight, Check, Plus, Loader2, MessageCircle } from 'lucide-react'
+import { CheckCircle, TrendingUp, Star, Zap, Clock, Gift, ArrowRight, Check, Plus } from 'lucide-react'
 import {
   MONTHLY_SERVICES, ELARA_LAUNCH, SLUG_TO_ID,
   getCheckoutUrl, formatPrice, getLaunchPromo,
@@ -14,7 +14,7 @@ import { type DiagnosticoResult, CATEGORY_LABELS, CATEGORY_MAX, type Category } 
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface Props { result: DiagnosticoResult; onReset?: () => void }
+interface Props { result: DiagnosticoResult }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -130,7 +130,32 @@ function ServiceCard({
 // ─── Launch promo section ─────────────────────────────────────────────────────
 
 function LaunchPromo({ level, promoExpired }: { level: LaunchPromoLevel; promoExpired: boolean }) {
-  if (level === 'hidden' || promoExpired) return null
+  if (level === 'hidden') return null
+
+  if (promoExpired) {
+    return (
+      <div className="rounded-2xl border border-zinc-700/50 bg-zinc-900/60 p-5">
+        <div className="flex items-start gap-3">
+          <div className="w-9 h-9 rounded-xl bg-zinc-800 flex items-center justify-center shrink-0">
+            <Clock className="w-4 h-4 text-zinc-500" />
+          </div>
+          <div>
+            <p className="text-zinc-300 font-medium text-sm mb-1">El tiempo de la oferta especial venció</p>
+            <p className="text-zinc-500 text-[13px] leading-relaxed">
+              Ya realizaste tu diagnóstico. Si te arrepentiste y querés aprovechar la oferta de todas formas,
+              contactate con nuestro equipo de atención al cliente y te informarán si podés efectuar la compra.
+            </p>
+            <a
+              href="/contacto"
+              className="inline-flex items-center gap-1.5 mt-3 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Contactar al equipo <ArrowRight className="w-3 h-3" />
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   if (level === 'normal') {
     return (
@@ -211,7 +236,7 @@ function LaunchPromo({ level, promoExpired }: { level: LaunchPromoLevel; promoEx
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export default function DiagnosticoResultScreen({ result, onReset }: Props) {
+export default function DiagnosticoResultScreen({ result }: Props) {
   const { scores, fortalezas, oportunidades, servicios, conclusion } = result
 
   // Build initially selected IDs from recommendations
@@ -235,7 +260,7 @@ export default function DiagnosticoResultScreen({ result, onReset }: Props) {
   }, [])
 
   const count = selected.length
-  const launchPromo = promoExpired ? 'hidden' : getLaunchPromo(count)
+  const launchPromo = promoExpired ? 'expired' : getLaunchPromo(count)
   const checkoutUrl = getCheckoutUrl(selected)
   const totalMonthly = selected.reduce((sum, id) => sum + (MONTHLY_SERVICES[id]?.price ?? 0), 0)
 
@@ -528,116 +553,7 @@ export default function DiagnosticoResultScreen({ result, onReset }: Props) {
           <p className="text-zinc-400 text-[13px] leading-relaxed">{conclusion}</p>
         </motion.div>
 
-        {/* ── Contact capture ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.6 }}
-        >
-          <CaptureForm scores={result.scores} recommendedServices={servicios.map(s => s.name)} answers={{}} />
-        </motion.div>
-
-        {onReset && (
-          <div className="text-center pt-2">
-            <button
-              onClick={onReset}
-              className="text-zinc-600 hover:text-zinc-400 text-xs transition-colors underline underline-offset-4"
-            >
-              Rehacer el diagnóstico
-            </button>
-          </div>
-        )}
-
       </div>
-    </div>
-  )
-}
-
-// ─── Contact capture form ─────────────────────────────────────────────────────
-
-function CaptureForm({
-  scores, recommendedServices, answers,
-}: {
-  scores: DiagnosticoResult['scores']
-  recommendedServices: string[]
-  answers: Record<string, unknown>
-}) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!name.trim() || !email.trim()) return
-    setState('loading')
-    try {
-      const res = await fetch('/api/diagnostico/guardar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, scores, recommended_services: recommendedServices, answers }),
-      })
-      setState(res.ok ? 'done' : 'error')
-    } catch {
-      setState('error')
-    }
-  }
-
-  if (state === 'done') {
-    return (
-      <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-6 text-center">
-        <CheckCircle className="w-8 h-8 text-emerald-400 mx-auto mb-3" />
-        <p className="text-white font-medium">¡Listo! Te mandamos el plan por WhatsApp o email pronto.</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-      <div className="flex items-center gap-2 mb-1">
-        <MessageCircle className="w-4 h-4 text-blue-400" />
-        <h3 className="font-semibold text-white text-sm">Recibí este plan personalizado</h3>
-      </div>
-      <p className="text-zinc-500 text-[13px] mb-5">Te lo mandamos por WhatsApp o email para que lo tengas a mano.</p>
-
-      <form onSubmit={submit} className="space-y-3">
-        <div className="grid sm:grid-cols-2 gap-3">
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="Tu nombre"
-            required
-            className="bg-white/[0.04] border border-white/[0.08] text-white placeholder:text-zinc-600 rounded-xl px-4 py-3 text-sm focus:border-blue-500 focus:outline-none transition-colors"
-          />
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="tu@email.com"
-            required
-            className="bg-white/[0.04] border border-white/[0.08] text-white placeholder:text-zinc-600 rounded-xl px-4 py-3 text-sm focus:border-blue-500 focus:outline-none transition-colors"
-          />
-        </div>
-        <input
-          type="tel"
-          value={phone}
-          onChange={e => setPhone(e.target.value)}
-          placeholder="WhatsApp (opcional)"
-          className="w-full bg-white/[0.04] border border-white/[0.08] text-white placeholder:text-zinc-600 rounded-xl px-4 py-3 text-sm focus:border-blue-500 focus:outline-none transition-colors"
-        />
-        {state === 'error' && (
-          <p className="text-red-400 text-xs">Error al guardar. Intentá de nuevo.</p>
-        )}
-        <button
-          type="submit"
-          disabled={state === 'loading' || !name.trim() || !email.trim()}
-          className="w-full flex items-center justify-center gap-2 py-3 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 text-white text-sm font-medium rounded-xl transition-colors"
-        >
-          {state === 'loading' ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-          {state === 'loading' ? 'Guardando...' : 'Recibir mi plan'}
-        </button>
-      </form>
     </div>
   )
 }
