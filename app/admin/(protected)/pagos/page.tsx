@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 export const metadata = { title: 'ELARA Admin — Pagos' }
 
 export default async function PagosPage() {
-  const [{ data: orders }, { data: subscriptions }] = await Promise.all([
+  const [{ data: orders }, { data: subscriptions }, { data: onboardings }] = await Promise.all([
     supabaseAdmin
       .from('orders')
       .select('*, clients(contact_name, business_name), products(name)')
@@ -15,7 +15,14 @@ export default async function PagosPage() {
       .select('*, clients(contact_name, business_name), products(name)')
       .order('created_at', { ascending: false })
       .limit(50),
+    supabaseAdmin
+      .from('onboarding_submissions')
+      .select('order_id, status'),
   ])
+
+  const onboardingByOrder = Object.fromEntries(
+    (onboardings ?? []).map(o => [o.order_id, o.status as string])
+  )
 
   const orderStatusColor: Record<string, string> = {
     paid:     'bg-emerald-50 text-emerald-700',
@@ -56,6 +63,7 @@ export default async function PagosPage() {
                   <th className="text-left text-xs font-medium text-zinc-400 px-5 py-3">Producto</th>
                   <th className="text-left text-xs font-medium text-zinc-400 px-5 py-3">Monto</th>
                   <th className="text-left text-xs font-medium text-zinc-400 px-5 py-3">Estado</th>
+                  <th className="text-left text-xs font-medium text-zinc-400 px-5 py-3">Onboarding</th>
                   <th className="text-left text-xs font-medium text-zinc-400 px-5 py-3">Fecha</th>
                 </tr>
               </thead>
@@ -73,6 +81,15 @@ export default async function PagosPage() {
                       <span className={`text-xs font-medium px-2 py-1 rounded-lg ${orderStatusColor[order.status] ?? 'bg-zinc-100 text-zinc-400'}`}>
                         {order.status}
                       </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      {onboardingByOrder[order.id] === 'completed' ? (
+                        <span className="text-xs font-medium px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700">Completado</span>
+                      ) : onboardingByOrder[order.id] ? (
+                        <span className="text-xs font-medium px-2 py-1 rounded-lg bg-amber-50 text-amber-700">Pendiente</span>
+                      ) : (
+                        <span className="text-xs text-zinc-300">—</span>
+                      )}
                     </td>
                     <td className="px-5 py-3.5 text-zinc-400">
                       {new Date(order.created_at).toLocaleDateString('es-AR')}

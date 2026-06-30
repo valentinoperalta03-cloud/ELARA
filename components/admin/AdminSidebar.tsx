@@ -11,17 +11,19 @@ import {
   CreditCard,
   Inbox,
   ClipboardList,
+  TrendingUp,
   LogOut,
   ChevronRight,
 } from 'lucide-react'
 
 const navItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/clientes', label: 'Clientes', icon: Users },
+  { href: '/admin/dashboard',    label: 'Dashboard',         icon: LayoutDashboard },
+  { href: '/admin/clientes',     label: 'Clientes',          icon: Users },
   { href: '/admin/implementaciones', label: 'Implementaciones', icon: ListChecks },
-  { href: '/admin/pagos', label: 'Pagos', icon: CreditCard },
-  { href: '/admin/leads', label: 'Leads', icon: Inbox },
-  { href: '/admin/onboardings', label: 'Onboardings', icon: ClipboardList },
+  { href: '/admin/pagos',        label: 'Pagos',             icon: CreditCard },
+  { href: '/admin/leads',        label: 'Leads',             icon: Inbox },
+  { href: '/admin/diagnosticos', label: 'Diagnósticos',      icon: TrendingUp },
+  { href: '/admin/onboardings',  label: 'Onboardings',       icon: ClipboardList },
 ]
 
 interface Props {
