@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Zap } from 'lucide-react'
 import ElaraLogo from '@/components/ui/ElaraLogo'
 
 const navLinks = [
@@ -49,6 +49,13 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/diagnostico"
+              className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors duration-150 font-medium"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              Diagnóstico Gratis
+            </Link>
           </div>
 
           <div className="hidden md:block">
@@ -83,11 +90,19 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="py-3 text-sm text-zinc-300 hover:text-white transition-colors border-b border-white/[0.06] last:border-0"
+                className="py-3 text-sm text-zinc-300 hover:text-white transition-colors border-b border-white/[0.06]"
               >
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/diagnostico"
+              onClick={() => setMobileOpen(false)}
+              className="py-3 text-sm text-blue-400 font-medium transition-colors border-b border-white/[0.06] flex items-center gap-1.5"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              Diagnóstico Gratis
+            </Link>
             <Link
               href="/contacto"
               onClick={() => setMobileOpen(false)}

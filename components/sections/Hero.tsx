@@ -220,19 +220,28 @@ export default function Hero() {
               className="flex flex-col sm:flex-row gap-3"
             >
               <Link
+                href="/diagnostico"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition-colors shadow-[0_0_28px_rgba(37,99,235,0.45)]"
+              >
+                <Zap className="w-4 h-4" />
+                Diagnóstico Gratuito
+              </Link>
+              <Link
                 href="/contacto"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-medium bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition-colors shadow-[0_0_24px_rgba(37,99,235,0.35)]"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-medium border border-white/[0.14] text-white rounded-xl hover:border-white/[0.26] hover:bg-white/[0.04] transition-all duration-150"
               >
                 Empezar con ELARA
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link
-                href="/productos"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-medium border border-white/[0.14] text-white rounded-xl hover:border-white/[0.26] hover:bg-white/[0.04] transition-all duration-150"
-              >
-                Ver soluciones
-              </Link>
             </motion.div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.38 }}
+              className="text-zinc-600 text-[13px] mt-1"
+            >
+              Descubrí qué oportunidades tiene tu negocio en menos de 3 minutos.
+            </motion.p>
 
             <motion.div
               initial={{ opacity: 0 }}

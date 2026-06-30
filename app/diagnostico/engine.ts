@@ -222,28 +222,6 @@ interface ServiceDef {
 
 const SERVICES: ServiceDef[] = [
   {
-    name: 'ELARA Launch™',
-    slug: 'elara-launch',
-    badge: 'Pago único',
-    description: 'Sitio web profesional + chatbot + WhatsApp + captura de leads',
-    relevance: (s, f) => {
-      let r = 0
-      if (s.presencia_digital.level === 'low') r += 4
-      if (s.presencia_digital.level === 'medium') r += 2
-      if (f.includes('sin_presencia_digital')) r += 2
-      if (f.includes('solo_redes')) r += 1
-      if (f.includes('objetivo_presencia') || f.includes('meta_presencia')) r += 2
-      if (f.includes('info_dispersa')) r += 1
-      if (f.includes('boca_boca')) r += 1
-      return r
-    },
-    reason: (s, f) => {
-      if (f.includes('sin_presencia_digital')) return 'Tu negocio no tiene presencia digital todavía. Un sitio profesional es la base que te permite convertir visitas en clientes, incluso mientras dormís.'
-      if (f.includes('solo_redes')) return 'Las redes sociales son buenas para visibilidad, pero un sitio web propio te da credibilidad, posicionamiento en Google y un espacio donde toda la información está centralizada.'
-      return 'Detectamos oportunidades para potenciar tu presencia online. Un sitio profesional puede convertirse en tu mejor vendedor las 24 horas del día.'
-    },
-  },
-  {
     name: 'Inbox AI™',
     slug: 'inbox-ai',
     badge: 'Mensual',
