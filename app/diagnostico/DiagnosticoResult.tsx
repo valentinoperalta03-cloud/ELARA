@@ -12,20 +12,16 @@ import {
 } from './config'
 import { type DiagnosticoResult, CATEGORY_LABELS, CATEGORY_MAX, type Category } from './engine'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface Props { result: DiagnosticoResult }
-
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const CATEGORY_ORDER: Category[] = [
   'presencia_digital', 'automatizacion', 'captacion', 'organizacion', 'marketing', 'escalabilidad',
 ]
 
 const LEVEL_CONFIG = {
-  low:    { label: 'Oportunidad',  bar: 'bg-amber-500',   text: 'text-amber-400',   bg: 'bg-amber-500/10',   border: 'border-amber-500/20' },
+  low:    { label: 'Oportunidad',   bar: 'bg-amber-500',   text: 'text-amber-400',   bg: 'bg-amber-500/10',   border: 'border-amber-500/20' },
   medium: { label: 'En desarrollo', bar: 'bg-blue-500',    text: 'text-blue-400',    bg: 'bg-blue-500/10',    border: 'border-blue-500/20' },
-  high:   { label: 'Punto fuerte', bar: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+  high:   { label: 'Punto fuerte',  bar: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
 }
 
 // ─── Countdown hook ───────────────────────────────────────────────────────────
@@ -39,7 +35,6 @@ function useCountdown() {
       expiry = Date.now() + PROMO_DURATION_SECONDS * 1000
       localStorage.setItem(PROMO_STORAGE_KEY, expiry.toString())
     }
-
     const tick = () => setTimeLeft(Math.max(0, Math.floor((expiry - Date.now()) / 1000)))
     tick()
     const id = setInterval(tick, 1000)
@@ -55,15 +50,13 @@ function formatTime(secs: number): string {
   return `${m}:${s}`
 }
 
-// ─── Score bar ────────────────────────────────────────────────────────────────
-
 function scoreToPercent(category: Category, score: number): number {
   const max = CATEGORY_MAX[category]
   const min = -max / 2
   return Math.max(8, Math.min(100, ((score - min) / (max - min)) * 100))
 }
 
-// ─── Service toggle card ──────────────────────────────────────────────────────
+// ─── Service card ─────────────────────────────────────────────────────────────
 
 function ServiceCard({
   service, selected, recommended, onToggle, disabled,
@@ -93,33 +86,29 @@ function ServiceCard({
           Recomendado
         </div>
       )}
-
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-display font-bold text-base text-white">{service.name}</span>
-            <span className="text-[10px] text-zinc-600 border border-white/[0.08] rounded-full px-1.5 py-0.5">{service.badge}</span>
+            <span className="font-semibold text-white text-sm">{service.name}</span>
+            <span className="text-[10px] text-zinc-500 border border-white/[0.08] rounded-full px-1.5 py-0.5">{service.badge}</span>
           </div>
-          <p className="text-zinc-500 text-[13px] mb-3 leading-snug">{service.description}</p>
+          <p className="text-zinc-500 text-[12px] mb-3">{service.description}</p>
           <ul className="space-y-1">
             {service.benefits.map((b, i) => (
-              <li key={i} className="flex items-center gap-1.5 text-[12px] text-zinc-400">
-                <div className="w-1 h-1 rounded-full bg-zinc-600 shrink-0" />
+              <li key={i} className="flex items-center gap-1.5 text-[11px] text-zinc-400">
+                <Check className="w-3 h-3 text-emerald-500 shrink-0" />
                 {b}
               </li>
             ))}
           </ul>
         </div>
-
-        <div className="shrink-0 flex flex-col items-end gap-3">
-          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-150 ${
-            selected ? 'bg-blue-600 border-blue-600' : 'border-white/20'
+        <div className="shrink-0 text-right">
+          <div className="font-semibold text-white text-sm">{formatPrice(service.price)}</div>
+          <div className="text-zinc-600 text-[10px]">/mes</div>
+          <div className={`mt-3 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+            selected ? 'border-blue-500 bg-blue-500' : 'border-white/[0.2]'
           }`}>
-            {selected && <Check className="w-3.5 h-3.5 text-white" />}
-          </div>
-          <div className="text-right">
-            <div className="text-white font-bold text-sm">{formatPrice(service.price)}</div>
-            <div className="text-zinc-600 text-[10px]">/mes</div>
+            {selected && <Check className="w-3 h-3 text-white" />}
           </div>
         </div>
       </div>
@@ -189,10 +178,8 @@ function LaunchPromo({ level, promoExpired }: { level: LaunchPromoLevel; promoEx
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <p className="text-white font-semibold text-sm">Precio especial para vos en ELARA Launch™</p>
-              <span className="text-[10px] font-bold text-amber-400 bg-amber-500/15 border border-amber-500/25 rounded-full px-2 py-0.5">
-                -{pct}%
-              </span>
+              <p className="text-white font-semibold text-sm">Precio especial en ELARA Launch™</p>
+              <span className="text-[10px] font-bold text-amber-400 bg-amber-500/15 border border-amber-500/25 rounded-full px-2 py-0.5">-{pct}%</span>
             </div>
             <p className="text-zinc-500 text-[13px] mb-3">Sitio profesional + chatbot + WhatsApp + captura de leads.</p>
             <div className="flex items-center gap-3">
@@ -234,45 +221,21 @@ function LaunchPromo({ level, promoExpired }: { level: LaunchPromoLevel; promoEx
   )
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+// ─── Screen 1: Analysis ───────────────────────────────────────────────────────
 
-export default function DiagnosticoResultScreen({ result }: Props) {
-  const { scores, fortalezas, oportunidades, servicios, conclusion } = result
-
-  // Build initially selected IDs from recommendations
-  const recommendedIds = servicios
-    .map(s => SLUG_TO_ID[s.slug])
-    .filter(Boolean)
-
-  const [selected, setSelected] = useState<string[]>(recommendedIds)
-  const timeLeft = useCountdown()
-  const promoExpired = timeLeft === 0
-
-  const toggle = useCallback((id: string) => {
-    setSelected(prev => {
-      if (prev.includes(id)) {
-        if (prev.length <= 1) return prev  // min 1
-        return prev.filter(x => x !== id)
-      }
-      if (prev.length >= 3) return prev    // max 3
-      return [...prev, id]
-    })
-  }, [])
-
-  const count = selected.length
-  const launchPromo = promoExpired ? 'expired' : getLaunchPromo(count)
-  const checkoutUrl = getCheckoutUrl(selected)
-  const baseMonthly  = selected.reduce((sum, id) => sum + (MONTHLY_SERVICES[id]?.price ?? 0), 0)
-  const discount     = count === 2 ? 0.10 : count === 3 ? 0.20 : 0
-  const totalMonthly = Math.round(baseMonthly * (1 - discount))
-
-  const ctaIsExternal = checkoutUrl.startsWith('http')
-  const ctaLabel = count === 3 ? 'Quiero este plan' : count === 2 ? 'Comenzar ahora' : 'Empezar con este servicio'
+function AnalysisScreen({
+  result,
+  onShowOffer,
+}: {
+  result: DiagnosticoResult
+  onShowOffer: () => void
+}) {
+  const { scores, fortalezas, oportunidades, conclusion } = result
 
   return (
     <div className="min-h-screen bg-zinc-950">
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <div className="relative pt-20 pb-12 px-5 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/[0.07] rounded-full blur-[80px]" />
@@ -296,9 +259,9 @@ export default function DiagnosticoResultScreen({ result }: Props) {
         </motion.div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-5 pb-24 space-y-8">
+      <div className="max-w-3xl mx-auto px-5 pb-48 space-y-8">
 
-        {/* ── Score bars ── */}
+        {/* Score bars */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -335,7 +298,7 @@ export default function DiagnosticoResultScreen({ result }: Props) {
           </div>
         </motion.div>
 
-        {/* ── Fortalezas + Oportunidades ── */}
+        {/* Fortalezas + Oportunidades */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -377,28 +340,139 @@ export default function DiagnosticoResultScreen({ result }: Props) {
           )}
         </motion.div>
 
-        {/* ── Divider + section header ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="flex items-center gap-4"
-        >
-          <div className="flex-1 h-px bg-white/[0.06]" />
-          <span className="text-zinc-600 text-xs uppercase tracking-widest font-medium">Tu plan</span>
-          <div className="flex-1 h-px bg-white/[0.06]" />
-        </motion.div>
-
-        {/* ── Plan selector ── */}
+        {/* Conclusion */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.32 }}
+          transition={{ duration: 0.45, delay: 0.26 }}
+          className="bg-blue-600/[0.05] border border-blue-500/20 rounded-3xl p-6"
+        >
+          <h3 className="font-semibold text-white text-sm mb-2">Nuestra lectura de tu negocio</h3>
+          <p className="text-zinc-400 text-[13px] leading-relaxed">{conclusion}</p>
+        </motion.div>
+
+      </div>
+
+      {/* ── Sticky CTA — impossible to miss ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+        {/* Gradient fade */}
+        <div className="h-24 bg-gradient-to-t from-zinc-950 to-transparent" />
+        <div className="bg-zinc-950 px-4 pb-8 pt-0 pointer-events-auto">
+          <motion.button
+            onClick={onShowOffer}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            whileHover={{ scale: 1.015 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full max-w-lg mx-auto flex items-center justify-center gap-3 py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg transition-colors shadow-[0_0_40px_rgba(37,99,235,0.6)] relative overflow-hidden"
+          >
+            {/* Shimmer */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+              animate={{ x: ['-100%', '200%'] }}
+              transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
+            />
+            <span className="relative">Quiero mi oferta personalizada</span>
+            <ArrowRight className="w-5 h-5 relative shrink-0" />
+          </motion.button>
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+// ─── Screen 2: Offer ──────────────────────────────────────────────────────────
+
+function OfferScreen({ result }: { result: DiagnosticoResult }) {
+  const { servicios } = result
+  const timeLeft    = useCountdown()
+  const promoExpired = timeLeft === 0
+
+  const recommendedIds = servicios.map(s => SLUG_TO_ID[s.slug]).filter(Boolean)
+  const [selected, setSelected] = useState<string[]>(recommendedIds)
+
+  const toggle = useCallback((id: string) => {
+    setSelected(prev => {
+      if (prev.includes(id)) {
+        if (prev.length <= 1) return prev
+        return prev.filter(x => x !== id)
+      }
+      if (prev.length >= 3) return prev
+      return [...prev, id]
+    })
+  }, [])
+
+  const count        = selected.length
+  const launchPromo  = promoExpired ? 'expired' : getLaunchPromo(count)
+  const checkoutUrl  = getCheckoutUrl(selected)
+  const baseMonthly  = selected.reduce((sum, id) => sum + (MONTHLY_SERVICES[id]?.price ?? 0), 0)
+  const discount     = count === 2 ? 0.10 : count === 3 ? 0.20 : 0
+  const totalMonthly = Math.round(baseMonthly * (1 - discount))
+  const ctaIsExternal = checkoutUrl.startsWith('http')
+  const ctaLabel = count === 3 ? 'Quiero este plan' : count === 2 ? 'Comenzar ahora' : 'Empezar con este servicio'
+
+  return (
+    <div className="min-h-screen bg-zinc-950">
+
+      {/* Header */}
+      <div className="relative pt-20 pb-10 px-5 text-center overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-600/[0.07] rounded-full blur-[80px]" />
+        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="relative max-w-2xl mx-auto"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-5">
+            <Zap className="w-3.5 h-3.5" />
+            Oferta personalizada para vos
+          </div>
+          <h1 className="font-display font-bold text-3xl md:text-4xl text-white leading-tight mb-3">
+            Diseñá tu plan a medida
+          </h1>
+          <p className="text-zinc-400 text-sm leading-relaxed">
+            Seleccionamos los servicios que más impacto pueden tener en tu negocio.<br />
+            Podés ajustarlos como quieras.
+          </p>
+        </motion.div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-5 pb-24 space-y-6">
+
+        {/* Timer */}
+        {timeLeft !== null && !promoExpired && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-between bg-amber-500/[0.05] border border-amber-500/20 rounded-2xl px-5 py-4"
+          >
+            <div className="flex items-center gap-2.5">
+              <Clock className="w-4 h-4 text-amber-400" />
+              <div>
+                <div className="text-white text-sm font-medium">Oferta válida por</div>
+                <div className="text-zinc-500 text-[11px]">No se reinicia si cerrás el navegador</div>
+              </div>
+            </div>
+            <div className="font-mono font-bold text-2xl text-white bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-2">
+              {formatTime(timeLeft)}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Service selector */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.1 }}
         >
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="font-display font-bold text-xl text-white">Diseñá tu plan</h2>
-              <p className="text-zinc-500 text-[13px] mt-0.5">Los recomendados ya están seleccionados. Podés agregar o quitar servicios.</p>
+              <h2 className="font-display font-bold text-xl text-white">Servicios</h2>
+              <p className="text-zinc-500 text-[13px] mt-0.5">Los recomendados ya están seleccionados. Podés ajustar.</p>
             </div>
             <div className="text-right shrink-0">
               <div className="text-zinc-500 text-[11px] mb-0.5">Seleccionados</div>
@@ -418,9 +492,9 @@ export default function DiagnosticoResultScreen({ result }: Props) {
 
           <div className="space-y-3">
             {Object.values(MONTHLY_SERVICES).map(service => {
-              const isSelected = selected.includes(service.id)
+              const isSelected  = selected.includes(service.id)
               const isRecommended = recommendedIds.includes(service.id)
-              const atMax = count >= 3 && !isSelected
+              const atMax       = count >= 3 && !isSelected
               return (
                 <ServiceCard
                   key={service.id}
@@ -435,7 +509,7 @@ export default function DiagnosticoResultScreen({ result }: Props) {
           </div>
         </motion.div>
 
-        {/* ── ELARA Launch promo ── */}
+        {/* Launch promo */}
         <AnimatePresence mode="wait">
           {launchPromo !== 'hidden' && (
             <motion.div
@@ -450,37 +524,13 @@ export default function DiagnosticoResultScreen({ result }: Props) {
           )}
         </AnimatePresence>
 
-        {/* ── Countdown + summary ── */}
+        {/* Summary + CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.44 }}
+          transition={{ duration: 0.45, delay: 0.2 }}
           className="bg-white/[0.02] border border-white/[0.07] rounded-3xl p-6"
         >
-          {/* Timer */}
-          {timeLeft !== null && !promoExpired && (
-            <div className="flex items-center justify-between mb-5 pb-5 border-b border-white/[0.06]">
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-amber-400" />
-                <div>
-                  <div className="text-white text-sm font-medium">Oferta válida por</div>
-                  <div className="text-zinc-500 text-[11px]">No se reinicia si cerrás el navegador</div>
-                </div>
-              </div>
-              <div className="font-mono font-bold text-2xl text-white bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-2">
-                {formatTime(timeLeft)}
-              </div>
-            </div>
-          )}
-
-          {promoExpired && (
-            <div className="flex items-center gap-2 mb-5 pb-5 border-b border-white/[0.06] text-zinc-500 text-sm">
-              <Clock className="w-4 h-4" />
-              La oferta promocional expiró. El diagnóstico sigue disponible.
-            </div>
-          )}
-
-          {/* Plan summary */}
           <div className="space-y-2 mb-5">
             <div className="text-zinc-600 text-[11px] uppercase tracking-wider mb-3">Resumen del plan</div>
             {selected.map(id => {
@@ -526,7 +576,6 @@ export default function DiagnosticoResultScreen({ result }: Props) {
             </div>
           </div>
 
-          {/* CTA */}
           <motion.div layout>
             {ctaIsExternal ? (
               <a
@@ -554,18 +603,38 @@ export default function DiagnosticoResultScreen({ result }: Props) {
           </p>
         </motion.div>
 
-        {/* ── Conclusion ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.52 }}
-          className="bg-blue-600/[0.05] border border-blue-500/20 rounded-3xl p-6"
-        >
-          <h3 className="font-semibold text-white text-sm mb-2">Nuestra lectura de tu negocio</h3>
-          <p className="text-zinc-400 text-[13px] leading-relaxed">{conclusion}</p>
-        </motion.div>
-
       </div>
     </div>
+  )
+}
+
+// ─── Root component ───────────────────────────────────────────────────────────
+
+export default function DiagnosticoResultScreen({ result }: Props) {
+  const [showOffer, setShowOffer] = useState(false)
+
+  return (
+    <AnimatePresence mode="wait">
+      {showOffer ? (
+        <motion.div
+          key="offer"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <OfferScreen result={result} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="analysis"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <AnalysisScreen result={result} onShowOffer={() => setShowOffer(true)} />
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
