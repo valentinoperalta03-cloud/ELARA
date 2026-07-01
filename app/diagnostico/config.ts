@@ -83,29 +83,29 @@ export const CHECKOUT_URLS: Record<string, string> = {
   leads_ai:    'https://pagoselara.lemonsqueezy.com/checkout/buy/33c379a3-7ac8-4d1a-9f24-584838f4ca4d',
   insights:    'https://pagoselara.lemonsqueezy.com/checkout/buy/d8cdf212-83f3-4a0d-b1dc-8bc3ef0b993b',
 
-  // ── 2 servicios (completar con links de Lemon Squeezy) ──────────────────────
-  'inbox_ai+insights':     '/contacto',
-  'inbox_ai+leads_ai':     '/contacto',
-  'inbox_ai+smart_system': '/contacto',
-  'inbox_ai+social_ai':    '/contacto',
-  'insights+leads_ai':     '/contacto',
-  'insights+smart_system': '/contacto',
-  'insights+social_ai':    '/contacto',
-  'leads_ai+smart_system': '/contacto',
-  'leads_ai+social_ai':    '/contacto',
-  'smart_system+social_ai':'/contacto',
+  // ── 2 servicios — 10% OFF ────────────────────────────────────────────────────
+  'inbox_ai+insights':     'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'inbox_ai+leads_ai':     'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'inbox_ai+smart_system': 'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'inbox_ai+social_ai':    'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'insights+leads_ai':     'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'insights+smart_system': 'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'insights+social_ai':    'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'leads_ai+smart_system': 'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'leads_ai+social_ai':    'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
+  'smart_system+social_ai':'https://pagoselara.lemonsqueezy.com/checkout/buy/898f2fc5-3488-4a53-af93-849a4a2c6a2e',
 
-  // ── 3 servicios (completar con links de Lemon Squeezy) ──────────────────────
-  'inbox_ai+insights+leads_ai':      '/contacto',
-  'inbox_ai+insights+smart_system':  '/contacto',
-  'inbox_ai+insights+social_ai':     '/contacto',
-  'inbox_ai+leads_ai+smart_system':  '/contacto',
-  'inbox_ai+leads_ai+social_ai':     '/contacto',
-  'inbox_ai+smart_system+social_ai': '/contacto',
-  'insights+leads_ai+smart_system':  '/contacto',
-  'insights+leads_ai+social_ai':     '/contacto',
-  'insights+smart_system+social_ai': '/contacto',
-  'leads_ai+smart_system+social_ai': '/contacto',
+  // ── 3 servicios — 20% OFF ────────────────────────────────────────────────────
+  'inbox_ai+insights+leads_ai':      'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'inbox_ai+insights+smart_system':  'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'inbox_ai+insights+social_ai':     'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'inbox_ai+leads_ai+smart_system':  'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'inbox_ai+leads_ai+social_ai':     'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'inbox_ai+smart_system+social_ai': 'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'insights+leads_ai+smart_system':  'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'insights+leads_ai+social_ai':     'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'insights+smart_system+social_ai': 'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
+  'leads_ai+smart_system+social_ai': 'https://pagoselara.lemonsqueezy.com/checkout/buy/730e8658-9085-4e46-af9e-bf4ff0eeec78',
 }
 
 export function getCheckoutUrl(selectedIds: string[]): string {

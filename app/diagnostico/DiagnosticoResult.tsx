@@ -262,7 +262,9 @@ export default function DiagnosticoResultScreen({ result }: Props) {
   const count = selected.length
   const launchPromo = promoExpired ? 'expired' : getLaunchPromo(count)
   const checkoutUrl = getCheckoutUrl(selected)
-  const totalMonthly = selected.reduce((sum, id) => sum + (MONTHLY_SERVICES[id]?.price ?? 0), 0)
+  const baseMonthly  = selected.reduce((sum, id) => sum + (MONTHLY_SERVICES[id]?.price ?? 0), 0)
+  const discount     = count === 2 ? 0.10 : count === 3 ? 0.20 : 0
+  const totalMonthly = Math.round(baseMonthly * (1 - discount))
 
   const ctaIsExternal = checkoutUrl.startsWith('http')
   const ctaLabel = count === 3 ? 'Quiero este plan' : count === 2 ? 'Comenzar ahora' : 'Empezar con este servicio'
@@ -506,8 +508,18 @@ export default function DiagnosticoResultScreen({ result }: Props) {
             )}
 
             <div className="pt-3 mt-1 border-t border-white/[0.06] flex items-center justify-between">
-              <span className="text-white font-semibold text-sm">Total mensual</span>
+              <div>
+                <span className="text-white font-semibold text-sm">Total mensual</span>
+                {discount > 0 && (
+                  <span className="ml-2 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-1.5 py-0.5">
+                    {discount * 100}% OFF
+                  </span>
+                )}
+              </div>
               <div className="text-right">
+                {discount > 0 && (
+                  <div className="text-zinc-600 text-xs line-through">{formatPrice(baseMonthly)}</div>
+                )}
                 <span className="text-white font-bold text-xl">{formatPrice(totalMonthly)}</span>
                 <span className="text-zinc-600 text-xs">/mes</span>
               </div>
